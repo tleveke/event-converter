@@ -33,28 +33,48 @@ describe('Event', () => {
         dateEnd.setHours(21);
         dateEnd.setMinutes(59);
         dateEnd.setSeconds(59);
+
+        /*
         
+        
+        event = new Event("today 1pm", "today 2pm")
+
+        event = event.event_for_pay => [{startDate: 1pm, endDate: 2pm}]
+
+        
+
+        event = new Event("today 1pm", "today 11pm")
+
+        
+
+        event.event_for_pay => [{startDate 1pm, endDate: 9:59:99:99}, {startDate 10pm, endDate: 11pm}]
+        
+         */
+        
+
+
+
+
         expect( date.getTime() <= events[0].endDate.getTime() && events[0].endDate.getTime() <= dateEnd.getTime()).toBe(true);
     });
 });
 // test two -> the event starts during the night ends during the night.
 describe('test two -> the event starts during the night ends during the night.', () => {
 
-    let eventsForPay = [];
-    let events = [];
+    let event;
 
     let startDate = new Date('2021-01-11T03:00:00');
     let endDate = new Date('2021-01-11T03:00:00');
 
     beforeEach(async () => {
-        events.push(new Event(startDate,endDate));
-        eventsForPay.push(new EventForPay(endDate));
+        event = new Event(startDate, endDate);
     })
 
     test('the event starts during the night ends during the night.', async () => {
-        expect( events[0].startDate.getHours() >= 22 && events[0].startDate.getHours() <= 23 || events[0].startDate.getHours() >= 0 && events[0].startDate.getHours() <= 5).toBe(true);
+        expect(event.event_for_pay[0]).toEq({ startDate:startDate, endDate:endDate });
+        //expect( events[0].startDate.getHours() >= 22 && events[0].startDate.getHours() <= 23 || events[0].startDate.getHours() >= 0 && events[0].startDate.getHours() <= 5).toBe(true);
 
-        expect( events[0].endDate.getHours() >= 22 && events[0].endDate.getHours() <= 23 || events[0].endDate.getHours() >= 0 && events[0].endDate.getHours() <= 5).toBe(true);
+        //expect( events[0].endDate.getHours() >= 22 && events[0].endDate.getHours() <= 23 || events[0].endDate.getHours() >= 0 && events[0].endDate.getHours() <= 5).toBe(true);
     });
 });
 // test three -> the event starts day ends during the night.
@@ -119,8 +139,8 @@ describe('test four -> the event starts during the night ends during the day.', 
 
     test('the event starts during the night ends during the day.', async () => {
 
-        const dateDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         const dateDayEnd = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        const dateDayEndEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
 
         dateDayEnd.setHours(6);
         dateDayEnd.setMinutes(0);
@@ -129,10 +149,10 @@ describe('test four -> the event starts during the night ends during the day.', 
         dateDayEndEnd.setHours(21);
         dateDayEndEnd.setMinutes(59);
         dateDayEndEnd.setSeconds(59);
-
+        
         expect( events[0].startDate.getHours() >= 22 && events[0].startDate.getHours() <= 23 || events[0].startDate.getHours() >= 0 && events[0].startDate.getHours() <= 5).toBe(true);
 
-        expect( dateDayEnd.getTime() <= events[0].startDate.getTime() && events[0].startDate.getTime() <= dateDayEndEnd.getTime()).toBe(true);
+        expect( dateDayEnd.getTime() <= events[0].endDate.getTime() && events[0].endDate.getTime() <= dateDayEndEnd.getTime()).toBe(true);
     });
 });
 
@@ -151,7 +171,7 @@ describe('test five -> the event starts during the day, continues during the nig
     })
 
     test('the event starts during the day, continues during the night and ends during the day.', async () => {
-
+        
         const dateDay = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
         const dateDayEnd = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
 
