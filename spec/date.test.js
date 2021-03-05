@@ -95,8 +95,8 @@ describe('Event', () => {
         dateNigthEnd.setHours(5);
         dateNigthEnd.setMinutes(59);
         dateNigthEnd.setSeconds(59);
-
-
-        expect( events[0].startDate.getTime() => 22 && events[0].endDate.getTime() <= 6).toBe(true);
+        
+        expect( dateDay.getTime() <= events[0].startDate.getTime() && events[0].startDate.getTime() <= dateDayEnd.getTime()).toBe(true);
+        expect( dateNigth.getTime() <= events[0].endDate.getTime() && events[0].endDate.getTime() <= dateNigthEnd.getTime()).toBe(true);
     });
 });
