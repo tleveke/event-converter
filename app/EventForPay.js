@@ -10,6 +10,16 @@ class EventForPay {
         let journeyEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), endDate.getHours(), endDate.getMinutes(), endDate.getSeconds());
 
         this.process(journeyStart, journeyEnd)
+        console.log(this.process(journeyStart, journeyEnd));
+    }
+
+    dateDiff(date1, date2) {
+        date1.setHours(0);
+        date1.setMinutes(0, 0, 0);
+        date2.setHours(0);
+        date2.setMinutes(0, 0, 0);
+        var datediff = Math.abs(date1.getTime() - date2.getTime()); // difference 
+        return parseInt(datediff / (24 * 60 * 60 * 1000), 10); //Convert values days and return value      
     }
 
     premier_jour(journeyStart, journeyEnd) {
@@ -17,9 +27,9 @@ class EventForPay {
         let heurededebut = journeyStart.getHours()
         if (heurededebut <= 22) {
             nbhours = heuredefin - heurededebut
-            return ("paiedejour d'une durée de :" + nbhours)
+            return "paiedejour d'une durée de :" + nbhours
         } else {
-            return ("paiedenuit d'une duree de :" - nbhours)
+            return "paiedenuit d'une duree de :" - nbhours
         }
     }
 
@@ -29,20 +39,20 @@ class EventForPay {
         let dureeinter = heuredefin - 6
         let dureeinter2 = heuredefin + 6 - 22
         if (heuredefin <= 6 && heuredefin >= 0) {
-            return ("paiedenuit d'une duree de :" + heuredefin)
+            return "paiedenuit d'une duree de :" + heuredefin
         } else if (heuredefin <= 22 && heuredefin >= 6) {
-            return ("paie de jour d'une durée de:" + dureeinter + "paie de nuit d'une duree de 6")
+            return "paie de jour d'une durée de:" + dureeinter + "paie de nuit d'une duree de 6"
         } else {
-            return ("paie de jour d'une duree de : 16  paie de nuit d'une duree de :"
-                dureeinter2)
+            return "paie de jour d'une duree de : 16  paie de nuit d'une duree de :"
+            dureeinter2
         }
     }
 
     process(journeyStart, journeyEnd) {
-        let nbdejour = journeyEnd.getDate() - journeyStart.getDate() - 1
+        let nbdejour = this.dateDiff(journeyEnd, journeyStart) - 1
         let paiesdejour = nbdejour * 16
         let paiesdenuit = nbdejour * 8
         nb_heures_der = this.dernier_jour(journeyStart, journeyEnd)
         nb_heures_pre = this.premier_jour(journeyStart, journeyEnd)
-        retrun(nb_heures_der, nb_heures_pre, "nb de paies de jour intermediares " + paiesdejour, "nb de paies de nuit intermediares " + paiesdenuit)
+        return nb_heures_der, nb_heures_pre, "nb de paies de jour intermediares " + paiesdejour, "nb de paies de nuit intermediares " + paiesdenuit
     }
