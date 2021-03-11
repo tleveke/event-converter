@@ -9,20 +9,19 @@ class EventForPay {
         let journeyStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startDate.getHours(), startDate.getMinutes(), startDate.getSeconds());
         let journeyEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), endDate.getHours(), endDate.getMinutes(), endDate.getSeconds());
 
-        this.dsfjkfksdkjsdfijdsp(journeyStart, journeyEnd);
+        this.recursiveEvents(journeyStart, journeyEnd);
 
 
 
     }
 
-    dsfjkfksdkjsdfijdsp(journeyStart, journeyEnd, index = 0) {
+    recursiveEvents(journeyStart, journeyEnd, index = 0) {
         let a = false;
-        console.log("LOOP 1");
-            console.log("LOOP");
             if (this.verifSameDay(journeyStart, journeyEnd)) {
                 let heuredeFin = journeyEnd.getHours();
+                let heuredudebut = journeyStart.getHours();
 
-                if (heuredeFin <= 22) {
+                if ( (heuredeFin <= 22 && heuredeFin >= 6) && (heuredudebut <= 22 && heuredudebut >= 6)) {
                     console.log("PAIE DE JOUR")
                     this.events.push({ startDate: journeyStart, endDate: journeyEnd })
                     a=true;
@@ -31,8 +30,15 @@ class EventForPay {
                 else {
                     console.log("PAIE DE NUIT")
 
-                    let dateFinishJourney = new Date(journeyStart.getFullYear(), journeyStart.getMonth(), journeyStart.getDate(), 21, 59, 59);
-                    let dateBeginNigth = new Date(journeyEnd.getFullYear(), journeyEnd.getMonth(), journeyEnd.getDate(), 22, 0, 0);
+
+                    let dateFinishJourney = new Date(journeyStart.getFullYear(), journeyStart.getMonth(), journeyStart.getDate(), 5, 59, 59);
+                    let dateBeginNigth = new Date(journeyEnd.getFullYear(), journeyEnd.getMonth(), journeyEnd.getDate(), 6, 0, 0);
+
+                    
+                    if (this.verifDay(journeyStart)) {
+                        dateFinishJourney = new Date(journeyStart.getFullYear(), journeyStart.getMonth(), journeyStart.getDate(), 21, 59, 59);
+                        dateBeginNigth = new Date(journeyEnd.getFullYear(), journeyEnd.getMonth(), journeyEnd.getDate(), 22, 0, 0);
+                    }
 
                     this.events.push({ startDate: journeyStart, endDate: dateFinishJourney });
                     this.events.push({ startDate: dateBeginNigth, endDate: journeyEnd });
@@ -80,7 +86,7 @@ class EventForPay {
                     journeyStart.setSeconds(dateFinish.getSeconds()+1);
                     
                     this.events.push({ startDate: dateBegin, endDate: dateFinish });
-                    this.dsfjkfksdkjsdfijdsp(journeyStart,journeyEnd, index++);
+                    this.recursiveEvents(journeyStart,journeyEnd, index++);
                 }
 
             }
