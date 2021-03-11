@@ -1,3 +1,4 @@
+//tests don't run
 const Event = require('../app/Event');
 const EventForPay = require('../app/EventForPay');
 

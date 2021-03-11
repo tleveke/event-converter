@@ -21,7 +21,9 @@ class EventForPay {
         var datediff = Math.abs(date1.getTime() - date2.getTime()); // difference 
         return parseInt(datediff / (24 * 60 * 60 * 1000), 10); //Convert values days and return value      
     }
-
+    // whats the convention in your code? French? English? 
+    //camelCase? underscore_seperated? we should have conventions in our code....
+    // This does something... but not the right thing. Use TDD nextime.
     premier_jour(journeyStart, journeyEnd) {
         let heuredefin = journeyEnd.getHours()
         let heurededebut = journeyStart.getHours()
