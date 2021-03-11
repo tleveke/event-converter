@@ -49,7 +49,7 @@ class EventForPay {
     }
 
     process(journeyStart, journeyEnd) {
-        let nbdejour = this.dateDiff(journeyEnd, journeyStart) - 1
+        let nbdejour = this.dateDiff(journeyEnd, journeyStart)
         let paiesdejour = nbdejour * 16
         let paiesdenuit = nbdejour * 8
         nb_heures_der = this.dernier_jour(journeyStart, journeyEnd)
