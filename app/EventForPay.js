@@ -6,6 +6,7 @@ class EventForPay {
         let startDate = event.startDate;
         let endDate = event.endDate;
 
+        // Hum do we need to do this? startDate and endDate are already of type Date, so this parsing is superfluous....
         let journeyStart = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), startDate.getHours(), startDate.getMinutes(), startDate.getSeconds());
         let journeyEnd = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), endDate.getHours(), endDate.getMinutes(), endDate.getSeconds());
 
@@ -17,6 +18,9 @@ class EventForPay {
 
     recursiveEvents(journeyStart, journeyEnd, index = 0) {
         let a = false;
+        // This function is far more complicated than it needs to be: 
+        // When you made the first tests pass, and added the next ones, a refactor step is missing. 
+        // Which is why in my algorithm I have but one branch, and you have many more.
             if (this.verifSameDay(journeyStart, journeyEnd)) {
                 let heuredeFin = journeyEnd.getHours();
                 let heuredudebut = journeyStart.getHours();

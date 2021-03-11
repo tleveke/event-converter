@@ -1,5 +1,6 @@
 const Event = require('../app/Event');
-const EventForPay = require('../app/EventForPay');
+
+//tests look good.
 
 beforeAll(async () => {
 });
